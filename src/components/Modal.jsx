@@ -1,10 +1,13 @@
-import React from 'react'
+import PropTypes from "prop-types"
 
-export const Modal = ({ message, restart }) => {
+export const Modal = ({ isWinning, restart }) => {
     return (
         <div className="fixed inset-0 flex items-center justify-center z-50">
             <div className="bg-white p-4 rounded shadow-lg">
-                <div className="mb-4">{message}</div>
+                <div className="mb-4">
+                    {isWinning && <img src="/you_win.jpg" width="600px" />}
+                    {!isWinning && <img src="/you_lost.jpg" width="600px" />}
+                </div>
                 <button
                     className="bg-blue-500 text-white px-4 py-2 rounded"
                     onClick={restart}
@@ -12,7 +15,11 @@ export const Modal = ({ message, restart }) => {
                     Restart
                 </button>
             </div>
-            {/* <div className="fixed inset-0 bg-gray-500 opacity-50"></div> */}
         </div>
     )
+}
+
+Modal.propTypes = {
+    isWinning: PropTypes.bool.isRequired,
+    restart: PropTypes.func.isRequired
 }

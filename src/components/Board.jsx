@@ -1,5 +1,6 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react'
+import { useMemo, useState, useCallback, useEffect } from 'react'
 import { Cell } from './Cell'
+import PropTypes from 'prop-types'
 
 export const Board = ({ rows, cols, mines, setRemainingMines, gameStatus, updateGameStatus, handleBoardClick }) => {
     const generateTable = (totalMines) => {
@@ -61,7 +62,7 @@ export const Board = ({ rows, cols, mines, setRemainingMines, gameStatus, update
             revealCells(row + 1, col, statuses, table)
             revealCells(row + 1, col + 1, statuses, table)
         }
-    }, [])
+    }, [cols, rows])
 
     const { table, initStatuses } = useMemo(() => generateTable(mines), [rows, cols, mines])
     const [statuses, setStatuses] = useState(initStatuses)
@@ -131,8 +132,7 @@ export const Board = ({ rows, cols, mines, setRemainingMines, gameStatus, update
         })
 
         handleBoardClick(clickType, table[row][col])
-    }, [revealCells, table, flagCount, handleBoardClick])
-
+    }, [revealCells, table, flagCount, handleBoardClick, gameStatus])
 
     return (
         <>
@@ -146,4 +146,14 @@ export const Board = ({ rows, cols, mines, setRemainingMines, gameStatus, update
             ))}
         </>
     )
+}
+
+Board.propType = {
+    rows: PropTypes.number,
+    cols: PropTypes.number,
+    mines: PropTypes.number,
+    setRemainingMines: PropTypes.number,
+    gameStatus: PropTypes.string,
+    updateGameStatus: PropTypes.string,
+    handleBoardClick: PropTypes.func,
 }
